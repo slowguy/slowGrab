@@ -1,12 +1,10 @@
 package com.bnb.grab
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
-import android.widget.TextView
 
-import butterknife.Bind
 import butterknife.ButterKnife
+import com.bnb.grab.common.BaseActivity
 
 class MainActivity : BaseActivity() {
 
@@ -21,6 +19,10 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun setupFragment(){
+
     }
 
     override fun initData() {

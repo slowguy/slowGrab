@@ -1,4 +1,4 @@
-package com.bnb.grab
+package com.bnb.grab.common
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
