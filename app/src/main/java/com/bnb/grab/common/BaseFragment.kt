@@ -15,7 +15,7 @@ open class BaseFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    open fun initView() {
+    open fun initView(view: View?) {
 
     }
 

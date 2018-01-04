@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomHeaderLayout">
+        <attr name="h_tx_color" format="color|reference"/>
+        <attr name="h_bg_color" format="color|reference"/>
+        <attr name="h_desc_text" format="string|reference"/>
+        <attr name="h_back_show" format="boolean"/>
+    </declare-styleable>
+
+</resources>
