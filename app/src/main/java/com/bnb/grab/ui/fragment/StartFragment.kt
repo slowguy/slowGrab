@@ -1,5 +1,6 @@
 package com.bnb.grab.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.UiThread
 import android.text.TextUtils
@@ -11,6 +12,7 @@ import com.bnb.grab.R
 import com.bnb.grab.common.BaseFragment
 import com.bnb.grab.presenter.IStartPresenter
 import com.bnb.grab.presenter.impl.StartPresenter
+import com.bnb.grab.ui.activity.DocDetailActivity
 import com.bnb.grab.utils.MyToast
 import com.bnb.grab.view.IStartView
 import kotlinx.android.synthetic.main.fragment_start.*
@@ -84,10 +86,14 @@ open class StartFragment : BaseFragment(), View.OnClickListener, IStartView {
         }
     }
 
-    override fun analyzeDone(doc: Document) {
+    override fun analyzeDone(doc: Document,url:String?) {
         activity.runOnUiThread {
             showLoading(false)
-
+            val intent = Intent(activity, DocDetailActivity::class.java)
+            intent.putExtra("detail_type", "a")
+            intent.putExtra("url", url)
+            intent.putExtra("code", doc.toString())
+            startActivity(Intent(intent))
         }
 
     }

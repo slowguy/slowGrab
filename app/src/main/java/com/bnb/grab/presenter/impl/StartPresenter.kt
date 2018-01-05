@@ -26,7 +26,7 @@ open class StartPresenter : IStartPresenter {
         override fun run() {
             super.run()
             val doc: Document? = Jsoup.connect(url).get()
-            startView!!.analyzeDone(doc!!)
+            startView!!.analyzeDone(doc!!,url)
         }
     }
 }

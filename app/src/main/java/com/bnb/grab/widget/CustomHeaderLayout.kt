@@ -1,6 +1,8 @@
 package com.bnb.grab.widget
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.support.annotation.IntDef
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -12,7 +14,7 @@ import com.bnb.grab.R
 /**
  * Created by wsl on 2018/1/4.
  */
-open class CustomHeaderLayout : LinearLayout {
+open class CustomHeaderLayout : LinearLayout, View.OnClickListener {
 
     var mContext: Context? = null
     var attrs: AttributeSet? = null
@@ -37,6 +39,8 @@ open class CustomHeaderLayout : LinearLayout {
         if (ta.hasValue(R.styleable.CustomHeaderLayout_h_bg_color)) {
             var bgC = ta.getColor(R.styleable.CustomHeaderLayout_h_bg_color, R.color.white)
             view.setBackgroundColor(bgC)
+        } else {
+            view.setBackgroundColor(Color.parseColor("#44a9cc"))
         }
         if (ta.hasValue(R.styleable.CustomHeaderLayout_h_tx_color)) {
             var txC = ta.getColor(R.styleable.CustomHeaderLayout_h_tx_color, R.color.color_333)
@@ -55,10 +59,25 @@ open class CustomHeaderLayout : LinearLayout {
                 back!!.visibility = View.INVISIBLE
         }
 
+        initEvent()
+
     }
 
     private fun initView(view: View?) {
         back = view!!.findViewById(R.id.header_back) as TextView
         desc = view!!.findViewById(R.id.header_desc) as TextView
     }
+
+    private fun initEvent() {
+        back!!.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.header_back -> {
+                (mContext as Activity).finish()
+            }
+        }
+    }
+
 }

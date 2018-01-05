@@ -13,6 +13,6 @@ interface IStartView {
 
     fun showLoading(show: Boolean)
 
-    fun analyzeDone(doc: Document)
+    fun analyzeDone(doc: Document,url: String?)
 
 }
