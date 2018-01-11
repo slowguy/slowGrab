@@ -12,10 +12,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.bnb.grab.R
 import com.bnb.grab.common.BaseFragment
+import com.bnb.grab.view.IDetailView
 
 import kotlinx.android.synthetic.main.fragment_view.*
 
-class ViewFragment : BaseFragment() {
+class ViewFragment : BaseFragment(), IDetailView.IViewView {
 
     private var url: String? = ""
 
@@ -54,6 +55,7 @@ class ViewFragment : BaseFragment() {
     override fun initData() {
         super.initData()
         webConfig(web)
+        showProgress()
         web.loadUrl(url)
     }
 
@@ -79,9 +81,21 @@ class ViewFragment : BaseFragment() {
         super.onHiddenChanged(hidden)
     }
 
-    class MyWebViewClient : WebViewClient() {
+    internal inner class MyWebViewClient : WebViewClient() {
+
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
+            hideProgress()
         }
+
     }
+
+    override fun showProgress() {
+        spinKit.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        spinKit.visibility = View.INVISIBLE
+    }
+
 }

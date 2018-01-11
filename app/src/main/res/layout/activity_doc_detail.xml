@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:h_back_show="true"
-        app:h_desc_text="WebDetail"
+        app:h_desc_text="Detail"
         app:h_tx_color="@color/white"/>
 
     <LinearLayout

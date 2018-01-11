@@ -5,6 +5,10 @@ package com.bnb.grab.presenter
  */
 interface IStartPresenter {
 
-    fun startAnalyze(url: String)
+    fun startAnalyze(tag: String, url: String)
+
+    fun saveHistory(url: String)
+
+    fun getHistory(): List<String>
 
 }
