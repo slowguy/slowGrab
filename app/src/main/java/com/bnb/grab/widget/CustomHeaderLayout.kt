@@ -80,4 +80,8 @@ open class CustomHeaderLayout : LinearLayout, View.OnClickListener {
         }
     }
 
+    fun getBack(): TextView? {
+        return back
+    }
+
 }

@@ -43,8 +43,8 @@ open class StartPresenter : IStartPresenter {
         var saveUrl = url
         val str = SpUtils.getStr((startView as StartFragment).activity, SpUtils.HISTORY_KEY)
         val arr = str.split("^^")
-        arr.filter { it == saveUrl }
-                .forEach { return }
+        if (arr.contains(saveUrl))
+            return
         if (!str.isEmpty())
             saveUrl = "^^" + url
         saveUrl = str + saveUrl

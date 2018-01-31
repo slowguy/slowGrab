@@ -1,12 +1,14 @@
 package com.bnb.grab.ui.fragment
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -16,7 +18,7 @@ import com.bnb.grab.view.IDetailView
 
 import kotlinx.android.synthetic.main.fragment_view.*
 
-class ViewFragment : BaseFragment(), IDetailView.IViewView {
+class ViewFragment : BaseFragment(), IDetailView.IViewView, View.OnClickListener {
 
     private var url: String? = ""
 
@@ -46,6 +48,7 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
+        initEvent()
     }
 
     override fun initView(view: View?) {
@@ -57,6 +60,11 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView {
         webConfig(web)
         showProgress()
         web.loadUrl(url)
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+        skipCode.setOnClickListener(this)
     }
 
     private fun webConfig(web: WebView?) {
@@ -82,12 +90,28 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView {
     }
 
     internal inner class MyWebViewClient : WebViewClient() {
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+            Log.e("wsl_log", "url 1->$url")
+        }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
             hideProgress()
         }
 
+
+        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+            Log.e("wsl_log", "url 2->$url")
+            return super.shouldOverrideUrlLoading(view, url)
+        }
+
+        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Log.e("wsl_log", "url 3->${request?.url}")
+//            }
+            return super.shouldOverrideUrlLoading(view, request)
+        }
     }
 
     override fun showProgress() {
@@ -96,6 +120,18 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView {
 
     override fun hideProgress() {
         spinKit.visibility = View.INVISIBLE
+    }
+
+    override fun onClick(v: View?) {
+
+    }
+
+    fun judgeWeb(): Boolean {
+        if (web.canGoBack()) {
+            web.goBack()
+            return false
+        }
+        return true
     }
 
 }

@@ -19,5 +19,17 @@
         android:visibility="gone"
         app:SpinKit_Color="#44a9cc"/>
 
+    <TextView
+        android:id="@+id/skipCode"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/sp_skip_code"
+        android:gravity="center"
+        android:text="Analyze"
+        android:textColor="#660c3986"
+        android:textSize="11sp"/>
 
 </RelativeLayout>
