@@ -1,5 +1,6 @@
 package com.bnb.grab.presenter.impl
 
+import android.util.Log
 import com.bnb.grab.presenter.IStartPresenter
 import com.bnb.grab.ui.fragment.StartFragment
 import com.bnb.grab.utils.SpUtils
@@ -32,9 +33,10 @@ open class StartPresenter : IStartPresenter {
             try {
                 doc = Jsoup.connect(url).get()
 //                startView!!.analyzeDone(tag!!, doc!!, url)
-            } catch (e: ConnectException) {
-
+            } catch (e: Exception) {
+                Log.e("wsl_log", "Exception -> $e")
             }
+            Log.e("wsl_log", "doc -> $doc")
             startView!!.analyzeDone(tag!!, doc, url)
         }
     }

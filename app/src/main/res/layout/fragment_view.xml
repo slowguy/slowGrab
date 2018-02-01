@@ -12,7 +12,7 @@
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spinKit"
-        style="@style/SpinKitView.Large.Wave"
+        style="@style/SpinKitView.Large.WanderingCubes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -29,7 +29,7 @@
         android:background="@drawable/sp_skip_code"
         android:gravity="center"
         android:text="Analyze"
-        android:textColor="#660c3986"
+        android:textColor="#aa0c3986"
         android:textSize="11sp"/>
 
 </RelativeLayout>

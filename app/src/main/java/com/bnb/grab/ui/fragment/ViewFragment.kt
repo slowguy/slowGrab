@@ -14,6 +14,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.bnb.grab.R
 import com.bnb.grab.common.BaseFragment
+import com.bnb.grab.ui.activity.DocDetailActivity
 import com.bnb.grab.view.IDetailView
 
 import kotlinx.android.synthetic.main.fragment_view.*
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_view.*
 class ViewFragment : BaseFragment(), IDetailView.IViewView, View.OnClickListener {
 
     private var url: String? = ""
+    private var currentUrl: String? = ""
 
     companion object {
         fun getInstance(url: String?): ViewFragment {
@@ -90,6 +92,7 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView, View.OnClickListener
     }
 
     internal inner class MyWebViewClient : WebViewClient() {
+
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
             Log.e("wsl_log", "url 1->$url")
@@ -102,15 +105,8 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView, View.OnClickListener
 
 
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            Log.e("wsl_log", "url 2->$url")
+            currentUrl = url
             return super.shouldOverrideUrlLoading(view, url)
-        }
-
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Log.e("wsl_log", "url 3->${request?.url}")
-//            }
-            return super.shouldOverrideUrlLoading(view, request)
         }
     }
 
@@ -123,7 +119,11 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView, View.OnClickListener
     }
 
     override fun onClick(v: View?) {
-
+        when (v!!.id) {
+            R.id.skipCode -> {
+                (activity as DocDetailActivity).skipFragmentByTag("b",currentUrl)
+            }
+        }
     }
 
     fun judgeWeb(): Boolean {

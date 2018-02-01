@@ -94,6 +94,27 @@ class DocDetailActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    open fun skipFragmentByTag(tag: String?, currentUrl: String?) {
+        val fragmentTrans = getFragmentTrans()
+        when (tag) {
+            "a" -> {
+                viewText.isSelected = true
+                codeText.isSelected = false
+                fragmentTrans.hide(codeFragment)
+                fragmentTrans.show(viewFragment)
+                fragmentTrans.commit()
+            }
+            "b" -> {
+                viewText.isSelected = false
+                codeText.isSelected = true
+                fragmentTrans.hide(viewFragment)
+                fragmentTrans.show(codeFragment)
+                fragmentTrans.commit()
+                codeFragment!!.analyzeUrl(currentUrl)
+            }
+        }
+    }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK && event?.action == KeyEvent.ACTION_DOWN && dType == "a") {
             handleBackClick()

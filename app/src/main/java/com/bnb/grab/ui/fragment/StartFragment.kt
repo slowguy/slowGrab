@@ -102,8 +102,12 @@ open class StartFragment : BaseFragment(), View.OnClickListener, IStartView, Cus
         editUrl.setText("")
         //TODO save history & skip to inner activity
         startPre!!.saveHistory(url)
-        startPre!!.startAnalyze(tag, url)
+//        startPre!!.startAnalyze(tag, url)
         setHistoryLayout()
+        val intent = Intent(activity, DocDetailActivity::class.java)
+        intent.putExtra("detail_type", tag)
+        intent.putExtra("url", url)
+        startActivity(intent)
     }
 
     override fun setUrl(url: String?) {
