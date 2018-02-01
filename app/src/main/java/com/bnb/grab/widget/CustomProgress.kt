@@ -9,17 +9,20 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.bnb.grab.R
 
 /**
  * Created by wsl on 2018/2/1.
  */
-class CustomProgress : LinearLayout {
+class CustomProgress : LinearLayout, View.OnTouchListener {
 
     var mContext: Context? = null
     var width: Int? = 0
     var height: Int? = 0
+    var cube: ImageView? = null
+
 //    var paint1: Paint? = null
 
     constructor(context: Context) : this(context, null)
@@ -34,22 +37,20 @@ class CustomProgress : LinearLayout {
     private fun init() {
         orientation = LinearLayout.VERTICAL
         setBackgroundColor(Color.parseColor("#66ff0000"))
-        Log.e("view_log", "init")
-//        paint1 = Paint()
-//        paint1!!.color = mContext!!.resources.getColor(R.color.color_44a9cc)
-
     }
 
-//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-//        Log.e("view_log", "onMeasure")
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        cube = getChildAt(0) as ImageView?
+        cube!!.setOnTouchListener(this)
+        Log.e("view_log", "onMeasure")
+    }
+
+//    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+//        Log.e("view_log", "onLayout")
+//        width = getWidth()
+//        height = getHeight()
 //    }
-
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        Log.e("view_log", "onLayout")
-        width = getWidth()
-        height = getHeight()
-    }
 
 //    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
 //        Log.e("view_log", "onLayout")
@@ -62,19 +63,19 @@ class CustomProgress : LinearLayout {
 //
 //    }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                Log.e("cube_log", "action_down")
             }
             MotionEvent.ACTION_MOVE -> {
-
+                Log.e("cube_log", "action_move")
             }
             MotionEvent.ACTION_UP -> {
-
+                Log.e("cube_log", "action_up")
             }
         }
-        return super.onTouchEvent(event)
+        return true
     }
 
 }
