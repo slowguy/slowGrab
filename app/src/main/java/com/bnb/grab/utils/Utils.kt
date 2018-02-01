@@ -15,7 +15,7 @@ object Utils {
     fun checkAnalyzeUrl(context: Context, url: String): Boolean {
         val lowerCase = url.toLowerCase()
         if (TextUtils.isEmpty(url)) {
-            MyToast.showSortToast(context, "url CAN'T BE EMPTY")
+            MyToast.showSortToast(context, "URL CAN'T BE EMPTY")
             return false
         }
         if (!lowerCase.startsWith(regular[0]) && !lowerCase.startsWith(regular[1])) {
@@ -23,7 +23,7 @@ object Utils {
             return false
         }
         if (!url.matches(r1)) {
-            MyToast.showSortToast(context, "url NOT CORRECT!")
+            MyToast.showSortToast(context, "URL NOT CORRECT!")
             return false
         }
         return true
