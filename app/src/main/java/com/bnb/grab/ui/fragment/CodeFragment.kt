@@ -100,6 +100,7 @@ class CodeFragment : BaseFragment() {
             spinKit.visibility = View.GONE
             codeBlank.visibility = View.GONE
             code!!.text = doc
+            cusProgress.setScrollHeight(code.height)
         })
     }
 
