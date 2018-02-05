@@ -1,5 +1,6 @@
 package com.bnb.grab.widget
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -64,10 +65,17 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
 
     open fun setScrollHeight(sHeight: Int) {
         Log.e("slslsl", "sHeight-$sHeight")
-        this.sHeight = sHeight
-        if (sHeight <= height!!) {
-            visibility = View.GONE
-        }
+        (mContext as Activity).runOnUiThread({
+            this.sHeight = sHeight
+            if (sHeight <= height!!) {
+                visibility = View.GONE
+            }
+        })
+    }
+
+    fun moveProgress(r: Float) {
+        var t = (maxTop * r).toInt()
+        cube!!.layout(0, t, cubeWidth, t + cubeHeight)
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -86,11 +94,22 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
 //                Log.e("cube_log", "l - 0,t - $cubeTop,r - $cubeWidth,b - ${cubeTop + cubeHeight}")
                 cube!!.layout(0, cubeTop, cubeWidth, cubeTop + cubeHeight)
                 downY = moveY
+                listener?.pScroll(cubeTop.toFloat() / maxTop.toFloat())
             }
             MotionEvent.ACTION_UP -> {
             }
         }
         return true
+    }
+
+    interface OnProgressScrollListener {
+        fun pScroll(ratio: Float)
+    }
+
+    private var listener: OnProgressScrollListener? = null
+
+    fun setOnProgressScrollListener(listener: OnProgressScrollListener) {
+        this.listener = listener
     }
 
 }

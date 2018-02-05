@@ -111,11 +111,11 @@ class ViewFragment : BaseFragment(), IDetailView.IViewView, View.OnClickListener
     }
 
     override fun showProgress() {
-        spinKit.visibility = View.VISIBLE
+        spinKit?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        spinKit.visibility = View.INVISIBLE
+        spinKit?.visibility = View.INVISIBLE
     }
 
     override fun onClick(v: View?) {

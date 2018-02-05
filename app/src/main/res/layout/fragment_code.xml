@@ -6,6 +6,7 @@
                 android:background="@color/white">
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -64,5 +65,14 @@
             android:background="#662ff311"/>
 
     </com.bnb.grab.widget.CustomProgress>
+
+    <ImageView
+        android:id="@+id/logClick"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="60dp"
+        android:background="#60f0"/>
 
 </RelativeLayout>

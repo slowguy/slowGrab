@@ -10,17 +10,20 @@ import android.view.ViewGroup
 import com.bnb.grab.R
 import com.bnb.grab.common.BaseFragment
 import com.bnb.grab.view.IStartView
+import com.bnb.grab.widget.CustomProgress
 import kotlinx.android.synthetic.main.activity_doc_detail.*
 import kotlinx.android.synthetic.main.fragment_code.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import kotlin.concurrent.thread
 
 /**
  * Created by wsl on 2018/1/4.
  */
-class CodeFragment : BaseFragment() {
+class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, View.OnScrollChangeListener, View.OnClickListener {
 
     private var codeStr: String? = ""
+    private var textHeight: Int = 0
 
     companion object {
         fun getInstance(code: String?): CodeFragment {
@@ -48,6 +51,7 @@ class CodeFragment : BaseFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
+        initEvent()
     }
 
     override fun initView(view: View?) {
@@ -62,6 +66,13 @@ class CodeFragment : BaseFragment() {
             codeBlank.visibility = View.GONE
             code!!.text = codeStr
         }
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+        logClick.setOnClickListener(this)
+        cusProgress.setOnProgressScrollListener(this)
+        scroll.setOnScrollChangeListener(this)
     }
 
     override fun onAttach(context: Context?) {
@@ -100,8 +111,38 @@ class CodeFragment : BaseFragment() {
             spinKit.visibility = View.GONE
             codeBlank.visibility = View.GONE
             code!!.text = doc
-            cusProgress.setScrollHeight(code.height)
+            object : Thread() {
+                override fun run() {
+                    super.run()
+                    Thread.sleep(500)
+                    textHeight = code.height
+                    Log.e("ppp_log", "textHeight --> $textHeight")
+                    cusProgress.setScrollHeight(textHeight)
+//                    Log.e("hhh_log", "h->$h")
+                }
+            }.start()
         })
     }
 
+    override fun pScroll(ratio: Float) {
+//        val height = scroll.height
+        Log.e("ppp_log", "ratio->$ratio ,height->$textHeight ,calcHeight->${(textHeight * ratio).toInt()}")
+        scroll.scrollTo(0, (textHeight * ratio).toInt())
+    }
+
+    override fun onScrollChange(v: View?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
+        Log.e("sss_log", "scrollX->$scrollX ,scrollY->$scrollY ,oldScrollX->$oldScrollX ,oldScrollY->$oldScrollY")
+        var r = (scrollY / (textHeight - scroll.height).toFloat())
+        if (r > 1f) r = 1f
+        if (r < 0f) r = 0f
+        cusProgress.moveProgress(r)
+    }
+
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.logClick -> {
+                Log.e("click_log", "txh->${code.height} ,svh->${scroll.height} ,mix->${code.height - scroll.height}")
+            }
+        }
+    }
 }
