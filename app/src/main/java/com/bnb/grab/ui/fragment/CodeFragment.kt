@@ -25,6 +25,8 @@ class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, Vi
     private var codeStr: String? = ""
     private var textHeight: Int = 0
 
+    private var isSnap: Boolean = false
+
     companion object {
         fun getInstance(code: String?): CodeFragment {
             val vFragment = CodeFragment()
@@ -130,12 +132,17 @@ class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, Vi
         scroll.scrollTo(0, (textHeight * ratio).toInt())
     }
 
+    override fun pStatus(b: Boolean) {
+        isSnap = b
+    }
+
     override fun onScrollChange(v: View?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
         Log.e("sss_log", "scrollX->$scrollX ,scrollY->$scrollY ,oldScrollX->$oldScrollX ,oldScrollY->$oldScrollY")
         var r = (scrollY / (textHeight - scroll.height).toFloat())
         if (r > 1f) r = 1f
         if (r < 0f) r = 0f
-        cusProgress.moveProgress(r)
+        if (!isSnap)
+            cusProgress.moveProgress(r)
     }
 
     override fun onClick(v: View?) {

@@ -75,6 +75,8 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
 
     fun moveProgress(r: Float) {
         var t = (maxTop * r).toInt()
+        Log.e("xxxx_log", "cubeTop->$t")
+        cubeTop = t
         cube!!.layout(0, t, cubeWidth, t + cubeHeight)
     }
 
@@ -84,6 +86,7 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> {
                 downY = event.rawY.toInt()
+                listener?.pStatus(true)
             }
             MotionEvent.ACTION_MOVE -> {
                 moveY = event.rawY.toInt()
@@ -97,6 +100,7 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
                 listener?.pScroll(cubeTop.toFloat() / maxTop.toFloat())
             }
             MotionEvent.ACTION_UP -> {
+                listener?.pStatus(false)
             }
         }
         return true
@@ -104,6 +108,8 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
 
     interface OnProgressScrollListener {
         fun pScroll(ratio: Float)
+
+        fun pStatus(b: Boolean)
     }
 
     private var listener: OnProgressScrollListener? = null
