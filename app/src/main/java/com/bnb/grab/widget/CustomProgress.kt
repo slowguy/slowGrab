@@ -2,35 +2,29 @@ package com.bnb.grab.widget
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.bnb.grab.R
 
 /**
- * Created by wsl on 2018/2/1.
- */
+* Created by wsl on 2018/2/1.
+*/
 class CustomProgress : LinearLayout, View.OnTouchListener {
 
-    var mContext: Context? = null
-    var width: Int? = 0
-    var height: Int? = 0
-    var cube: ImageView? = null
+    private var mContext: Context? = null
+    private var width: Int? = 0
+    private var height: Int? = 0
+    private var cube: ImageView? = null
 
-    var downY: Int = 0
-    var cubeWidth: Int = 0
-    var cubeHeight: Int = 0
-    var cubeTop: Int = 0
-    var maxTop: Int = 0
+    private var downY: Int = 0
+    private var cubeWidth: Int = 0
+    private var cubeHeight: Int = 0
+    private var cubeTop: Int = 0
+    private var maxTop: Int = 0
 
-    var sHeight: Int = 0
+    private var sHeight: Int = 0
 
     constructor(context: Context) : this(context, null)
 
@@ -43,15 +37,12 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
 
     private fun init() {
         orientation = LinearLayout.VERTICAL
-        setBackgroundColor(Color.parseColor("#22ff0000"))
-
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         cube = getChildAt(0) as ImageView
         cube!!.setOnTouchListener(this)
-        Log.e("view_log", "onMeasure")
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -63,26 +54,25 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
         maxTop = height!! - cubeHeight
     }
 
-    open fun setScrollHeight(sHeight: Int) {
-        Log.e("slslsl", "sHeight-$sHeight")
+    fun setScrollHeight(sHeight: Int) {
         (mContext as Activity).runOnUiThread({
             this.sHeight = sHeight
-            if (sHeight <= height!!) {
-                visibility = View.GONE
-            }
+            visibility = if (sHeight <= height!!)
+                View.GONE
+            else
+                View.VISIBLE
         })
     }
 
     fun moveProgress(r: Float) {
-        var t = (maxTop * r).toInt()
-        Log.e("xxxx_log", "cubeTop->$t")
+        val t = (maxTop * r).toInt()
         cubeTop = t
         cube!!.layout(0, t, cubeWidth, t + cubeHeight)
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        var moveY = 0
-        var devY = 0
+        val moveY: Int
+        val devY: Int
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> {
                 downY = event.rawY.toInt()
@@ -94,7 +84,6 @@ class CustomProgress : LinearLayout, View.OnTouchListener {
                 cubeTop += devY
                 if (cubeTop <= 0) cubeTop = 0
                 if (cubeTop >= maxTop) cubeTop = maxTop
-//                Log.e("cube_log", "l - 0,t - $cubeTop,r - $cubeWidth,b - ${cubeTop + cubeHeight}")
                 cube!!.layout(0, cubeTop, cubeWidth, cubeTop + cubeHeight)
                 downY = moveY
                 listener?.pScroll(cubeTop.toFloat() / maxTop.toFloat())

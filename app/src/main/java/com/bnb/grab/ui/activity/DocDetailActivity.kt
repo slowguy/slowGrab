@@ -2,6 +2,7 @@ package com.bnb.grab.ui.activity
 
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
@@ -19,7 +20,6 @@ class DocDetailActivity : BaseActivity(), View.OnClickListener {
     var dType: String? = "a"
     var url: String? = ""
     var code: String? = ""
-//    var back: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,6 @@ class DocDetailActivity : BaseActivity(), View.OnClickListener {
         dType = intent.getStringExtra("detail_type")
         url = intent.getStringExtra("url")
         code = intent.getStringExtra("code")
-//        back = detail_header.getBack()
         setupFragment()
     }
 
@@ -41,7 +40,7 @@ class DocDetailActivity : BaseActivity(), View.OnClickListener {
         super.initEvent()
         viewText.setOnClickListener(this)
         codeText.setOnClickListener(this)
-//        back!!.setOnClickListener(this)
+        detail_header.setOnClickListener(this)
     }
 
     private fun setupFragment() {
@@ -68,9 +67,11 @@ class DocDetailActivity : BaseActivity(), View.OnClickListener {
                 dType = "b"
                 selectFrag(dType)
             }
-//            R.id.header_back -> {
-//                handleBackClick()
-//            }
+            R.id.detail_header -> {
+                if (dType == "b") {
+                    codeFragment!!.scrollToTop()
+                }
+            }
         }
     }
 
@@ -96,6 +97,7 @@ class DocDetailActivity : BaseActivity(), View.OnClickListener {
 
     open fun skipFragmentByTag(tag: String?, currentUrl: String?) {
         val fragmentTrans = getFragmentTrans()
+        dType = tag
         when (tag) {
             "a" -> {
                 viewText.isSelected = true

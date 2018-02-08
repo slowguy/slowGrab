@@ -9,13 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.bnb.grab.R
 import com.bnb.grab.common.BaseFragment
-import com.bnb.grab.view.IStartView
 import com.bnb.grab.widget.CustomProgress
-import kotlinx.android.synthetic.main.activity_doc_detail.*
 import kotlinx.android.synthetic.main.fragment_code.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import kotlin.concurrent.thread
 
 /**
  * Created by wsl on 2018/1/4.
@@ -72,7 +69,6 @@ class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, Vi
 
     override fun initEvent() {
         super.initEvent()
-        logClick.setOnClickListener(this)
         cusProgress.setOnProgressScrollListener(this)
         scroll.setOnScrollChangeListener(this)
     }
@@ -108,7 +104,7 @@ class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, Vi
         }
     }
 
-    open fun analyzeDone(doc: String?) {
+    fun analyzeDone(doc: String?) {
         activity.runOnUiThread({
             spinKit.visibility = View.GONE
             codeBlank.visibility = View.GONE
@@ -118,17 +114,20 @@ class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, Vi
                     super.run()
                     Thread.sleep(500)
                     textHeight = code.height
-                    Log.e("ppp_log", "textHeight --> $textHeight")
                     cusProgress.setScrollHeight(textHeight)
-//                    Log.e("hhh_log", "h->$h")
+//                    activity.runOnUiThread({
+//                    })
                 }
             }.start()
+            scroll.smoothScrollTo(0, 0)
         })
     }
 
+    fun scrollToTop() {
+        scroll.smoothScrollTo(0, 0)
+    }
+
     override fun pScroll(ratio: Float) {
-//        val height = scroll.height
-        Log.e("ppp_log", "ratio->$ratio ,height->$textHeight ,calcHeight->${(textHeight * ratio).toInt()}")
         scroll.scrollTo(0, (textHeight * ratio).toInt())
     }
 
@@ -137,7 +136,6 @@ class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, Vi
     }
 
     override fun onScrollChange(v: View?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
-        Log.e("sss_log", "scrollX->$scrollX ,scrollY->$scrollY ,oldScrollX->$oldScrollX ,oldScrollY->$oldScrollY")
         var r = (scrollY / (textHeight - scroll.height).toFloat())
         if (r > 1f) r = 1f
         if (r < 0f) r = 0f
@@ -147,9 +145,7 @@ class CodeFragment : BaseFragment(), CustomProgress.OnProgressScrollListener, Vi
 
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.logClick -> {
-                Log.e("click_log", "txh->${code.height} ,svh->${scroll.height} ,mix->${code.height - scroll.height}")
-            }
+
         }
     }
 }

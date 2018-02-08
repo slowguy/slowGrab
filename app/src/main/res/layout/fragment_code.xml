@@ -57,22 +57,14 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="#662ff311"/>
+            android:background="@drawable/sp_progress_cube"/>
 
     </com.bnb.grab.widget.CustomProgress>
-
-    <ImageView
-        android:id="@+id/logClick"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="60dp"
-        android:background="#60f0"/>
 
 </RelativeLayout>
